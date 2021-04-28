@@ -30,9 +30,9 @@ class _AuthFormState extends State<AuthForm> {
 
       //use auth request
       widget.submitFn(
-        _userEmail.trim(),
-        _userName.trim(),
-        _userPassword.trim(),
+        _userEmail.toString().trim(),
+        _userName.toString().trim(),
+        _userPassword.toString().trim(),
         _isLogin,
         context,
       );

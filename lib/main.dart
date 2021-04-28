@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:srhq_chatapp/screens/auth_screen.dart';
 import 'package:srhq_chatapp/screens/chat_screen.dart';
 
-void main() {
+Future<void> main() async {
+  //initializing and binding firebase in the app
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
