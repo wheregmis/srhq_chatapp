@@ -1,12 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
-  MessageBubble(this.message, this.userId, this.isMe, {this.key});
+  MessageBubble(this.message, this.username, this.isMe, {this.key});
 
   final String message;
-  final String userId;
+  final String username;
   final bool isMe;
   final Key key;
 
@@ -33,31 +31,14 @@ class MessageBubble extends StatelessWidget {
                 crossAxisAlignment:
                     isMe ? CrossAxisAlignment.start : CrossAxisAlignment.end,
                 children: <Widget>[
-                  FutureBuilder(
-                      future: FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(userId)
-                          .get(),
-                      builder: (context, snapShot) {
-                        if (snapShot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        // print(snapShot.data['username'].docs.toString());
-                        return Text(
-                          snapShot.data['username'],
-                          style: TextStyle(
-                              color: isMe
-                                  ? Colors.black
-                                  : Theme.of(context)
-                                      .accentTextTheme
-                                      .headline6
-                                      .color,
-                              fontWeight: FontWeight.bold),
-                        );
-                      }),
+                  Text(
+                    username,
+                    style: TextStyle(
+                        color: isMe
+                            ? Colors.black
+                            : Theme.of(context).accentTextTheme.headline6.color,
+                        fontWeight: FontWeight.bold),
+                  ),
                   Text(
                     message,
                     style: TextStyle(
