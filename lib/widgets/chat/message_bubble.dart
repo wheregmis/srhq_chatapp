@@ -29,32 +29,47 @@ class MessageBubble extends StatelessWidget {
             width: (MediaQuery.of(context).size.width) / 1.90,
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
             margin: EdgeInsets.symmetric(vertical: 4, horizontal: 9),
-            child: Column(children: <Widget>[
-              FutureBuilder(
-                  future: FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(userId)
-                      .get(),
-                  builder: (context, snapShot) {
-                    if (snapShot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    print(snapShot.data['username'].toString());
-                    return Text(
-                      snapShot.data['username'].toString(),
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    );
-                  }),
-              Text(
-                message,
-                style: TextStyle(
-                    color: isMe
-                        ? Colors.black
-                        : Theme.of(context).accentTextTheme.headline6.color),
-              ),
-            ]),
+            child: Column(
+                crossAxisAlignment:
+                    isMe ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+                children: <Widget>[
+                  FutureBuilder(
+                      future: FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(userId)
+                          .get(),
+                      builder: (context, snapShot) {
+                        if (snapShot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        // print(snapShot.data['username'].docs.toString());
+                        return Text(
+                          snapShot.data['username'],
+                          style: TextStyle(
+                              color: isMe
+                                  ? Colors.black
+                                  : Theme.of(context)
+                                      .accentTextTheme
+                                      .headline6
+                                      .color,
+                              fontWeight: FontWeight.bold),
+                        );
+                      }),
+                  Text(
+                    message,
+                    style: TextStyle(
+                        color: isMe
+                            ? Colors.black
+                            : Theme.of(context)
+                                .accentTextTheme
+                                .headline6
+                                .color),
+                    textAlign: isMe ? TextAlign.start : TextAlign.end,
+                  ),
+                ]),
           ),
         ]);
   }
