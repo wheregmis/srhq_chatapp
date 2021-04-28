@@ -1,7 +1,13 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AuthForm extends StatefulWidget {
   AuthForm(this.submitFn, this.isLoading);
+
+  void Function(File pickedImage) imagePickFn;
 
   final bool isLoading;
   final void Function(
@@ -20,10 +26,23 @@ class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   var _isLogin = true;
   String _userEmail, _userName, _userPassword;
+  File _userImageFile;
+
+  void _pickedImage(File image) {
+    _userImageFile = image;
+  }
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
+
+    if (_userImageFile == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('No image found'),
+        backgroundColor: Theme.of(context).errorColor,
+      ));
+      return;
+    }
 
     if (isValid) {
       _formKey.currentState.save();
@@ -37,6 +56,19 @@ class _AuthFormState extends State<AuthForm> {
         context,
       );
     }
+  }
+
+  File _pickedImage;
+  Image _image;
+
+  void _pickImage() async {
+    final pickedFile =
+        await ImagePicker.platform.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      _pickedImage = File(pickedFile.path);
+      widget.imagePickFn(_pickedImage);
+    });
   }
 
   @override
@@ -53,6 +85,21 @@ class _AuthFormState extends State<AuthForm> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
+                    if (!_isLogin)
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.grey,
+                        backgroundImage: _pickedImage != null
+                            ? FileImage(_pickedImage)
+                            : null,
+                      ),
+                    if (!_isLogin)
+                      FlatButton.icon(
+                        textColor: Theme.of(context).primaryColor,
+                        onPressed: _pickImage,
+                        icon: Icon(Icons.image),
+                        label: Text('Add Image'),
+                      ),
                     TextFormField(
                       validator: (value) {
                         if (value.isEmpty || !value.contains('@')) {
