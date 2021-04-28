@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "929050990453",
+    "project_id": "srhq-discussion",
+    "storage_bucket": "srhq-discussion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929050990453:android:41bb2d1914a6cc18da253c",
+        "android_client_info": {
+          "package_name": "com.example.srhq_chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "929050990453-e2u22tgg9tllpv22ibp8vi46mhoa8sqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx-c-0zQyYxcG6H8p8anSOwiDVKm5wVO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "929050990453-e2u22tgg9tllpv22ibp8vi46mhoa8sqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
